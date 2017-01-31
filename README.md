@@ -3,7 +3,7 @@ I want to know the latest movie so I made this project
 
 # Project 1 - *Flicks*
 
-**Name of your app** is a movies app using the [The Movie Database API](http://docs.themoviedb.apiary.io/#).
+**Flicks** is a movies app using the [The Movie Database API](http://docs.themoviedb.apiary.io/#).
 
 Time spent: **X** hours spent in total
 
