@@ -22,6 +22,12 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
         tableView.dataSource = self
         tableView.delegate = self
         
+        //Initialize a UIRefreshControl
+        let refreshControl = UIRefreshControl()
+        
+        //Call the refreshControlAction function when ControlEvents sense value change and start the spinning
+        refreshControl.addTarget(self, action: #selector(refreshControlAction(_:)), for: UIControlEvents.valueChanged)
+        
         let apiKey = "a07e22bc18f5cb106bfe4cc1f83ad8ed"
         let url = URL(string: "https://api.themoviedb.org/3/movie/now_playing?api_key=\(apiKey)")!
         let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10)
@@ -36,15 +42,48 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
                     self.tableView.reloadData()
                 }
             }
+            //Add spinning icon to the table view
+            self.tableView.insertSubview(refreshControl, at: 0)
         }
         task.resume()
         
     }
 
+    /*
+        Reload the connection with the api again and reload the data also stop spinning after reload data to tableview
+     */
+   func refreshControlAction(_ refresh: UIRefreshControl) {
+    
+    let apiKey = "a07e22bc18f5cb106bfe4cc1f83ad8ed"
+    let url = URL(string: "https://api.themoviedb.org/3/movie/now_playing?api_key=\(apiKey)")!
+    let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10)
+    let session = URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue.main)
+    let task: URLSessionDataTask = session.dataTask(with: request) { (data: Data?, response: URLResponse?, error: Error?) in
+        if let data = data {
+            //dataDictionary = the file of json. Its dictionary
+            if let dataDictionary = try! JSONSerialization.jsonObject(with: data, options: []) as? NSDictionary {
+                print(dataDictionary)
+                //movies = all of the data after results
+                self.movies = dataDictionary["results"] as? [NSDictionary]
+                self.tableView.reloadData()
+            }
+        }
+    }
+    task.resume()
+    
+    //Reload the data to the tableview again
+    tableView.reloadData()
+    
+    //Tell the spinning icon to stop spinning
+    refresh.endRefreshing()
+
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
     
     //Tells tableview how many cells will there be
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
