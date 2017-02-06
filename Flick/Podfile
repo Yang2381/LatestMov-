@@ -1,10 +1,14 @@
 # Uncomment the next line to define a global platform for your project
 # platform :ios, '9.0'
+inhibit_all_warnings! #Ignore all warnings
 
 target 'Flick' do
   # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
   use_frameworks!
   pod 'AFNetworking'
+#To show api picture
+  pod 'MBProgressHUD'
+#To show spinning before running
   # Pods for Flick
 
 end
