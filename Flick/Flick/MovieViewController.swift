@@ -11,27 +11,32 @@ import AFNetworking
 import MBProgressHUD
 
 
-class MovieViewController: UIViewController, UITableViewDataSource, UITableViewDelegate{
+class MovieViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate{
 
     @IBOutlet weak var tableView: UITableView!
     
     var movies: [NSDictionary]?  //? means the type could be null if no array of NSDictionary
     var endpoint: String!
     
+    
+    var curFramePosition: Double!
+    var showStatusBar: Bool = true
+
     override func viewDidLoad() {
         super.viewDidLoad()
+      // navigationController?.hidesBarsOnSwipe = false
         //Tell program that protocol functions is here
         tableView.dataSource = self
         tableView.delegate = self
         loadAPI()
+       
     }
-
+       
     /*
-        Reload the connection with the api again and reload the data also stop spinning after reload data to tableview
+        Reload the connection with the api again and reload t
+     he data also stop spinning after reload data to tableview
      */
    func refreshControlAction(_ refresh: UIRefreshControl) {
-    
-    
     
     //Adding the progress HUD when load
     let loadingWarning = MBProgressHUD.showAdded(to: self.view, animated: true)
@@ -172,6 +177,7 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
         return cell
     }
     
+    
     func isInternetAvailable() -> Bool
     {
         var zeroAddress = sockaddr_in()
@@ -192,7 +198,12 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
         let needsConnection = (flags.rawValue & UInt32(kSCNetworkFlagsConnectionRequired)) != 0
         return (isReachable && !needsConnection)
     }
+    /*
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+       navigationController?.barHideOnSwipeGestureRecognizer
     
+    }
+    */
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         let cell = sender as! UITableViewCell
