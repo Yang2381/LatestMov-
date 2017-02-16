@@ -24,7 +24,6 @@ The following **optional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/WAfkgez.gif' />
 <img src='http://i.imgur.com/WAfkgez.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 
